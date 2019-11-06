@@ -26,6 +26,10 @@ class Paginate {
     return false;
   }
 
+  private function prefix() {
+    return isset($this->args['prefix']) ? $this->args['prefix'] . '/' : '';
+  }
+
   private function prevUrl() {
     $url = $this->args['base'];
 
@@ -36,7 +40,7 @@ class Paginate {
       case 2:
         break;
       default:
-        $url .= '/' . $this->args['prevPage'];
+        $url .= '/' . $this->prefix() . $this->args['prevPage'];
     }
 
     return $url;
@@ -44,7 +48,7 @@ class Paginate {
   
   private function nextUrl() {
     if(!$this->hasNext()) return false;
-    return $this->args['base'] . '/' . $this->args['nextPage'];
+    return $this->args['base'] . '/' . $this->prefix() . $this->args['nextPage'];
   }
 
   public function get() {
