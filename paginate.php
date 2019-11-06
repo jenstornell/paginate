@@ -51,6 +51,10 @@ class Paginate {
     return $this->args['base'] . '/' . $this->prefix() . $this->args['nextPage'];
   }
 
+  private function hasOverflow() {
+    if($this->args['itemsTotal'] >= $this->args['itemsPerPage']) return true;
+  }
+
   public function get() {
     $this->next();
     $this->args['hasPrev'] = $this->hasPrev();
@@ -60,6 +64,8 @@ class Paginate {
     $this->args['hasNext'] = $this->hasNext();
     $this->args['nextPage'] = $this->next();
     $this->args['nextUrl'] = $this->nextUrl();
+
+    $this->args['hasOverflow'] = $this->hasOverflow();
     
     return $this->args;
   }
