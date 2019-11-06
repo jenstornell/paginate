@@ -6,20 +6,6 @@ class Paginate {
     $this->args = $args;
   }
 
-  public function step($steps) {
-    $currentPage = $this->args['currentPage'] + $steps;
-
-    if($currentPage > $this->args['itemsTotal']) {
-      $this->args['currentPage'] = $this->args['itemsTotal'];
-      return;
-    } elseif($currentPage < 1) {
-      $this->args['currentPage'] = 1;
-      return;
-    }
-
-    $this->args['currentPage'] = $currentPage;
-  }
-
   private function next() {
     if(!$this->hasNext()) return null;
     return $this->args['currentPage'] + 1;
@@ -40,12 +26,34 @@ class Paginate {
     return false;
   }
 
+  private function prevUrl() {
+    $url = $this->args['base'];
+
+    switch($this->args['currentPage']) {
+      case 1:
+        $url = false;
+        break;
+      case 2:
+        break;
+      default:
+        $url .= '/' . $this->args['prevPage'];
+    }
+
+    return $url;
+  }
+  
+  private function nextUrl() {
+    return $this->args['base'] . '/' . $this->args['nextPage'];
+  }
+
   public function get() {
     $this->next();
     $this->args['hasNext'] = $this->hasNext();
     $this->args['hasPrev'] = $this->hasPrev();
-    $this->args['prev'] = $this->prev();
-    $this->args['next'] = $this->next();
+    $this->args['prevPage'] = $this->prev();
+    $this->args['nextPage'] = $this->next();
+    $this->args['prevUrl'] = $this->prevUrl();
+    $this->args['nextUrl'] = $this->nextUrl();
     return $this->args;
   }
 }
