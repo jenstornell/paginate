@@ -43,17 +43,20 @@ class Paginate {
   }
   
   private function nextUrl() {
+    if(!$this->hasNext()) return false;
     return $this->args['base'] . '/' . $this->args['nextPage'];
   }
 
   public function get() {
     $this->next();
-    $this->args['hasNext'] = $this->hasNext();
     $this->args['hasPrev'] = $this->hasPrev();
     $this->args['prevPage'] = $this->prev();
-    $this->args['nextPage'] = $this->next();
     $this->args['prevUrl'] = $this->prevUrl();
+
+    $this->args['hasNext'] = $this->hasNext();
+    $this->args['nextPage'] = $this->next();
     $this->args['nextUrl'] = $this->nextUrl();
+    
     return $this->args;
   }
 }
