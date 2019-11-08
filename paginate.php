@@ -17,13 +17,19 @@ class Paginate {
   }
 
   private function hasNext() {
-    if($this->args['currentPage'] + 1 <= $this->args['itemsTotal'])  return true;
-    return false;
+    $next = $this->args['currentPage'] + 1;
+
+    if($next <= $this->args['pagesTotal']) {
+      return true;
+    }
   }
 
   private function hasPrev() {
-    if($this->args['currentPage'] > 1)  return true;
-    return false;
+    $prev = $this->args['currentPage'] - 1;
+
+    if($prev >= 1) {
+      return true;
+    }
   }
 
   private function prefix() {
@@ -52,11 +58,18 @@ class Paginate {
   }
 
   private function hasOverflow() {
-    if($this->args['itemsTotal'] >= $this->args['itemsPerPage']) return true;
+    if($this->args['pagesTotal'] >= $this->args['itemsPerPage']) return true;
+  }
+
+  private function pagesTotal() {
+    $total = $this->args['itemsTotal'];
+    $limit = $this->args['itemsPerPage'];
+    return ceil($total / $limit);
   }
 
   public function get() {
-    $this->next();
+    $this->args['pagesTotal'] = $this->pagesTotal();
+
     $this->args['hasPrev'] = $this->hasPrev();
     $this->args['prevPage'] = $this->prev();
     $this->args['prevUrl'] = $this->prevUrl();

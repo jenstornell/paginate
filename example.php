@@ -5,7 +5,7 @@ $paginate = new Paginate([
   'base' => 'https://example.com',
   'prefix' => 'page',
   'currentPage' => 1,
-  'itemsTotal' => 100,
+  'itemsTotal' => 101,
   'itemsPerPage' => 10
 ]);
 $results = $paginate->get();
@@ -14,7 +14,7 @@ print_r($results);
 $paginate = new Paginate([
   'base' => 'https://example.com',
   'prefix' => 'page',
-  'currentPage' => 100,
+  'currentPage' => 1,
   'itemsTotal' => 100,
   'itemsPerPage' => 10
 ]);
